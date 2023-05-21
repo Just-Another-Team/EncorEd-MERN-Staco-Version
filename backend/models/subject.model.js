@@ -22,19 +22,19 @@ const subjectSchema = new Schema({
         required: true,
         minlength: 3
     },
-    // subjectFloorLocation: {
-    //     type: String,
-    //     required: true,
-    //     minlength: 3
-    // },
-    // subjectStartTime: {
-    //     type: Date,
-    //     required: true,
-    // },
-    // subjectEndTime: {
-    //     type: Date,
-    //     required: true,
-    // },
+    subjectFloorLocation: {
+        type: String,
+        required: true,
+        minlength: 1
+    },
+    subjectStartTime: {
+        type: Date,
+        required: true,
+    },
+    subjectEndTime: {
+        type: Date,
+        required: true,
+    },
     // subjectIsActive: {
     //     type: Boolean
     // },

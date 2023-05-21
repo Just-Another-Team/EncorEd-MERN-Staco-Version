@@ -19,13 +19,12 @@ router.route('/add').post((req, res) => {
     //         contentType: 'image/png'
     //     };
 
-
     const subjectName = req.body.subjectName;
     const subjectEDP = req.body.subjectEDP;
     const subjectRoomLocation = req.body.subjectRoomLocation;
-    // const subjectFloorLocation = req.body.subjectFloorLocation;
-    // const subjectStartTime = Date.parse(req.body.subjectStartTime);
-    // const subjectEndTime = Date.parse(req.body.subjectEndTime);
+    const subjectFloorLocation = req.body.subjectFloorLocation;
+    const subjectStartTime = Date.parse(req.body.subjectStartTime);
+    const subjectEndTime = Date.parse(req.body.subjectEndTime);
     // const subjectIsActive = req.body.subjectIsActive;
     const subjectAssignedWeek = req.body.subjectAssignedWeek;
     const subjectAssignedUser = req.body.subjectAssignedUser;
@@ -35,9 +34,9 @@ router.route('/add').post((req, res) => {
         subjectName,
         subjectEDP,
         subjectRoomLocation,
-        // subjectFloorLocation,
-        // subjectStartTime,
-        // subjectEndTime,
+        subjectFloorLocation,
+        subjectStartTime,
+        subjectEndTime,
         // subjectIsActive,
         subjectAssignedWeek,
         subjectAssignedUser
