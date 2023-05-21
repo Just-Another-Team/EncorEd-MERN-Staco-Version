@@ -141,7 +141,6 @@ const AddSubjectForm = () => {
                    </Form.Group>
                 </Row>
 
-                {/* Change value to date */}
                 <Row className='mb-3'>
                     <Form.Label>Subject Schedule</Form.Label>
                     <Form.Group as={Col}>
@@ -185,8 +184,8 @@ const AddSubjectForm = () => {
                 </Row>
 
                 <Button onClick={submitForm} variant='primary' size='lg'>SUBMIT</Button>
-                <Button variant='secondary' size='lg'>CLEAR</Button>
-                <Button variant='danger' size='lg'>CANCEL</Button>
+                {/* <Button variant='secondary' size='lg'>CLEAR</Button>
+                <Button variant='danger' size='lg'>CANCEL</Button> */}
         </Form>
     );
 }
