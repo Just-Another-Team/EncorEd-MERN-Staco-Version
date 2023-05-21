@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Row, Col, Form, Card, Button } from "react-bootstrap"
 
 const AddSubjectForm = () => {
-    const [subjectImage, setSubjectImage] = useState();
+    const [subjectImg, setSubjectImg] = useState();
     const [subjectName, setSubjectname] = useState();
     const [subjectEDP, setSubjectEDPCode] = useState();
     const [subjectFloorLocation, setSubjectFloorLocation] = useState();
@@ -52,17 +52,42 @@ const AddSubjectForm = () => {
         const subjectAssignedUser = [];
         userFields.map((e, i) => { if (i != userFields.length - 1) subjectAssignedUser.push(e.username); });
     
-        //const subject = {subjectName, subjectEDP, subjectRoomLocation, subjectStartTime, subjectEndTime, subjectAssignedWeek, subjectAssignedUser};
-    
-        //Store the following:
-        // Image
-    
-        const subject = {subjectName, subjectEDP, subjectFloorLocation, subjectRoomLocation, subjectStartTime, subjectEndTime, subjectAssignedWeek, subjectAssignedUser}
-        console.log(subject)
-    
+        const formData = new FormData();
+
+        formData.append('subjectImg', subjectImg);
+        formData.append('subjectName', subjectName);
+        formData.append('subjectEDP', subjectEDP);
+        formData.append('subjectFloorLocation', subjectFloorLocation);
+        formData.append('subjectRoomLocation', subjectRoomLocation);
+        formData.append('subjectStartTime', subjectStartTime);
+        formData.append('subjectEndTime', subjectEndTime);
+        
+        subjectAssignedWeek.map((element) => {
+            console.log(`Week: ${element}`)
+            formData.append('subjectAssignedWeek', element);
+        });
+
+        subjectAssignedUser.map((element) => {
+            console.log(`User: ${element}`);
+            formData.append('subjectAssignedUser', element);
+        })
+
         //run nodemon server.js before running this
-        axios.post('http://localhost:4000/add', subject)
+        axios.post('http://localhost:4000/add', formData)
             .then(res => console.log(res.data))
+
+        alert("Subject added successfully!");
+
+        //Clear
+        setSubjectImg();
+        setSubjectname();
+        setSubjectEDPCode();
+        setSubjectFloorLocation();
+        setSubjectAssignedRoom();
+        setSubjectStartTime();
+        setSubjectEndTime();
+        setSubjectAssignedWeek();
+        setUserFields([{name: 'username', placeholder: 'Name of user'}]);
     }
     
     function setFloor(e) {
@@ -85,7 +110,7 @@ const AddSubjectForm = () => {
         <Form className='m-4 p-3'>
             <Form.Group className='mb-3'>
                 <Form.Label>Subject Image</Form.Label>
-                    <Form.Control type='file' />
+                    <Form.Control type='file' onChange={(e) => setSubjectImg(e.target.files[0])} accept='.png, .jpg, .jpeg' name='subjectImg' />
                 </Form.Group>
 
                 <Form.Group className='mb-3'>

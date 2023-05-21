@@ -1,7 +1,29 @@
 const router = require('express').Router();
+const multer = require('multer')
 const fs = require('fs');
-const path = require('path');
+const path = require("path");
 let Subject = require('../models/subject.model');
+
+const storageTest = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'images')
+    },
+    filename: (req, file, cb) => {
+        cb(null, file.originalname);
+    }
+});
+
+const fileFilterTest = (req, file, cb) => {
+    const allowedFileTypes = ['image/jpg', 'image/jpeg', 'image/png']
+
+    if (allowedFileTypes.includes(file.mimetype)) {
+        cb(null, true)
+    } else {
+        cb(null, false)
+    }
+}
+
+const upload = multer({storage: storageTest});
 
 router.route('/').get((req, res) => {
     Subject.find({})
@@ -9,16 +31,14 @@ router.route('/').get((req, res) => {
         .catch(err => res.status(400).json('Error' + err));
 });
 
-router.route('/add').post((req, res) => {
-    // To be fixed:
+router.route('/add').post(upload.single('subjectImg'), (req, res) => {
 
-    // console.log(req.body.subjectImg);
+    console.log("FileName from Backend: " + req.file.filename)
 
-    // const subjectImg = {
-    //         data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.subjectImg)),
-    //         contentType: 'image/png'
-    //     };
-
+    const subjectImg = {
+        data: fs.readFileSync("images/" + req.file.filename),
+        contentType: "image/jpg"
+    }
     const subjectName = req.body.subjectName;
     const subjectEDP = req.body.subjectEDP;
     const subjectRoomLocation = req.body.subjectRoomLocation;
@@ -30,7 +50,7 @@ router.route('/add').post((req, res) => {
     const subjectAssignedUser = req.body.subjectAssignedUser;
 
     const newSubject = new Subject({
-        // subjectImg,
+        subjectImg,
         subjectName,
         subjectEDP,
         subjectRoomLocation,
@@ -41,8 +61,6 @@ router.route('/add').post((req, res) => {
         subjectAssignedWeek,
         subjectAssignedUser
     });
-
-    console.log(newSubject);
 
     newSubject.save()
         .then(() => res.json('Subject added!'))

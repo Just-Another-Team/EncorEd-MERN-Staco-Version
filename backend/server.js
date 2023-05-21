@@ -18,18 +18,6 @@ mongoose.connect(connection_string, {
 .then(() => console.log('MongoDB connection established.'))
 .catch((error) => console.error("MongoDB connection failed:", error.message))
 
-const multer = require('multer');
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cd(null, 'uploads')
-    },
-    filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now());
-    }
-});
-
-const upload = multer({storage: storage});
-
 //Get Model Routes
 const subjectsRouter = require('./routes/subjects');
 const usersRouter = require('./routes/users');
