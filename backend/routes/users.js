@@ -12,10 +12,10 @@ const router = require('express').Router();
 const { registerUser, loginUser} = require('../controllers/userController')
 
 //login route
-router.get('/login', loginUser)
+router.post('/login', loginUser)
 
 //register route
-router.get('/register', registerUser)
+router.post('/register', registerUser)
 
 /*router.route('/register', (req, res) => {
     const userFirstname = req.body.userFirstname;
