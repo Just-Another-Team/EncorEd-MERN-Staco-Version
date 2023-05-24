@@ -4,15 +4,17 @@ import '../App.css';
 import { Container, Row} from "react-bootstrap"
 import { TopNav } from '../components/NavBar';
 import React, { useState } from "react"
+import { useLogin } from '../hooks/useLogin';
 
 const Login = () => {
     const [userEmail, setEmail] = useState('')
     const [userPassword, setPassword] = useState('')
+    const {login, isLoading, error} = useLogin()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        console.log(userEmail, userPassword)
+        await login(userEmail, userPassword)
     }
 
 
@@ -46,9 +48,10 @@ const Login = () => {
                                 />
                             </div>
                             <div className="d-grid gap-2 mt-3">
-                                <button type="submit" className="btn btn-primary">
+                                <button type="submit" className="btn btn-primary" disabled={isLoading}>
                                 Submit
                                 </button>
+                                {error && <div className="error">{error}</div>}
                             </div>
                             <p className="forgot-password text-right mt-2">
                                 Not yet registered? <a href="register">Register</a>
