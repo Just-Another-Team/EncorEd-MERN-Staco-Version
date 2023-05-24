@@ -20,10 +20,10 @@ mongoose.connect(connection_string, {
 
 //Get Model Routes
 const subjectsRouter = require('./routes/subjects');
-const usersRouter = require('./routes/users');
+const usersRoutes = require('./routes/users');
 
-app.use('/', subjectsRouter);
-app.use('/users', usersRouter);
+app.use('/api/sub', subjectsRouter);
+app.use('/api/users', usersRoutes);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
