@@ -14,10 +14,12 @@ const TopNav = () => {
     return (
         <Navbar bg="dark" variant='dark' expand="lg">
             <Container className='mx-4' fluid>
-                <Navbar.Brand>EncorEd</Navbar.Brand>
+                <Navbar.Brand href ="/dashboard">EncorEd</Navbar.Brand>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
                     {user && (
                         <>
+                            <Nav.Link href="/addsubs">Add Subjects</Nav.Link>
+                            <Nav.Link href="/viewsubs">View Subjects</Nav.Link>
                             <span className="loggedIn">Welcome! {user.userEmail}</span>
                             <button className="logout" onClick={handleClick}> Log out</button>
                         </>

@@ -3,10 +3,10 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const subjectSchema = new Schema({
-    subjectImg: {
-        data: Buffer,
-        contentType: String
-    },
+    // subjectImg: {
+    //     data: Buffer,
+    //     contentType: String
+    // },
     subjectName: {
         type: String,
         required: true,
@@ -49,6 +49,4 @@ const subjectSchema = new Schema({
   timestamps: true,
 });
 
-const Subject = mongoose.model('Subject', subjectSchema);
-
-module.exports = Subject;
+module.exports = mongoose.model('Subject', subjectSchema);

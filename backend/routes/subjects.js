@@ -1,8 +1,13 @@
-const router = require('express').Router();
+/*const router = require('express').Router();
 const multer = require('multer')
 const fs = require('fs');
 const path = require("path");
 let Subject = require('../models/subject.model');
+
+const requireAuth = require('../middleware/requireAuth')
+
+// require authorization before access
+router.use(requireAuth)
 
 const storageTest = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -23,7 +28,7 @@ const fileFilterTest = (req, file, cb) => {
     }
 }
 
-const upload = multer({storage: storageTest});
+const upload = multer({ storage: storageTest });
 
 router.route('/').get((req, res) => {
     Subject.find({})
@@ -66,5 +71,20 @@ router.route('/add').post(upload.single('subjectImg'), (req, res) => {
         .then(() => res.json('Subject added!'))
         .catch(err => res.status(400).json('Error:' + err));
 });
+*/
+
+//Modified
+
+const router = require('express').Router();
+
+//controller functions
+const { addSubject, viewAllSubs } = require('../controllers/subjectController')
+const Subject = require('../models/subject.model')
+
+//create new subjects
+router.post('/addsubs', addSubject)
+
+//get all subjects
+router.get('/viewsubs', viewAllSubs)
 
 module.exports = router; 

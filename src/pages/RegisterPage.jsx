@@ -2,7 +2,6 @@ import '../App.css';
 //import logo from '../assets/logo.svg';
 
 import { Container, Row } from "react-bootstrap"
-import { TopNav } from '../components/NavBar';
 import React, { useState } from "react"
 import { useRegister } from "../hooks/useRegister"
 
@@ -23,7 +22,6 @@ const Register = () => {
 
     return(
         <Container fluid className='mx-0 px-0' style={{overflow: "hidden"}}>
-            <TopNav />
             <Row style = {{ backgroundColor:'#45A1FD'}}>
                 <div className="Auth-form-container">
                     <form className="Auth-form" onSubmit={handleSubmit}>

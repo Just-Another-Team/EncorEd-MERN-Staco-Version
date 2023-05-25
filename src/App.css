@@ -95,3 +95,14 @@ label {
   color:white;
   padding: 7px;
 }
+
+.subject-details {
+  border-radius: 4px;
+  margin: 20px auto;
+  position: relative;
+  box-shadow: 5px 5px 5px rgba(0,0,0,0.05);
+  padding: 20px;
+  color:black;
+  width: 50%;
+  background-color: rgb(181, 181, 181);
+}
