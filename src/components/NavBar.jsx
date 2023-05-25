@@ -1,12 +1,13 @@
-import { Container, Row, Col, NavDropdown, Nav, Navbar, Stack } from "react-bootstrap"
+import { Container, Col, Nav, Navbar } from "react-bootstrap"
 import { NavButton } from "./Buttons";
 import { useLogout } from "../hooks/useLogout";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useState, useEffect } from 'react';
 
 const TopNav = () => {
     const { logout } = useLogout()
     const { user } = useAuthContext()
-    
+
     const handleClick = () => {
         logout()
     }
@@ -16,9 +17,13 @@ const TopNav = () => {
             <Container className='mx-4' fluid>
                 <Navbar.Brand href ="/dashboard">EncorEd</Navbar.Brand>
                 <Nav className="justify-content-end flex-grow-1 pe-3">
-                    {user && (
+                    {user && user.userRole === 'Registrar' &&  (
                         <>
                             <Nav.Link href="/addsubs">Add Subjects</Nav.Link>
+                        </>
+                    )}
+                    {user && (
+                        <>
                             <Nav.Link href="/viewsubs">View Subjects</Nav.Link>
                             <span className="loggedIn">Welcome! {user.userEmail}</span>
                             <button className="logout" onClick={handleClick}> Log out</button>

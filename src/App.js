@@ -37,7 +37,7 @@ function App() {
         />
         <Route 
           exact path="/addsubs" 
-          element={ user ? <AddSubject />: <Navigate to="/login" />}
+          element={ user && user.userRole === 'Registrar' ? <AddSubject />: <Navigate to="/login" />}
         />
         <Route 
           exact path="/viewsubs" 

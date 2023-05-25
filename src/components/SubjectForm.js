@@ -1,7 +1,9 @@
 import { Row, Col, Form, Card, Button } from "react-bootstrap"
 import { useState } from "react"
+import { useSubjectsContext } from "../hooks/useSubjectsContext";
 
 const SubjectForm = () => {
+    const { dispatch } = useSubjectsContext()
     //const [subjectImg, setSubjectImg] = useState('');
     const [subjectName, setSubjectName] = useState('');
     const [subjectEDP, setSubjectEDPCode] = useState('');
@@ -96,6 +98,7 @@ const SubjectForm = () => {
             setSubjectAssignedUser([{name: 'username', placeholder: 'Name of user'}]);
             setError(null)
             console.log("new subject added", json)
+            dispatch({ type: 'ADD_SUBJECTs', payload: json})
         }
 
     }

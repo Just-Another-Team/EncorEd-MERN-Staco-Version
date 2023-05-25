@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { useAuthContext } from './useAuthContext'
 
 export const useRegister = () => {
-    const [error, setError] = useState(null)
-    const [isLoading, setIsLoading] = useState(null)
+    const [ error, setError ] = useState(null)
+    const [ isLoading, setIsLoading ] = useState(null)
     const { dispatch } = useAuthContext()
 
     const register = async (userFirstname, userLastname, userRole, userEmail, userPassword) => {

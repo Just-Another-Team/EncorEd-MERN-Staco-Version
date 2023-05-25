@@ -2,6 +2,14 @@ const Subject = require('../models/subject.model')
 const jwt = require('jsonwebtoken')
 
 
+function getUserRole() {
+    const token = req.headers['authorization']
+
+    const decodedToken = jwt.decode(token, process.env.SECRET)
+
+    return decodedToken.userRole
+}
+
 // create new subject
 const addSubject = async (req, res) => {
 
@@ -41,9 +49,11 @@ const addSubject = async (req, res) => {
     }
     
     try{
+        
+        const user_id = req.user._id
         const subjects = await Subject.create({subjectName, subjectEDP, subjectRoomLocation, 
                                                 subjectFloorLocation, subjectStartTime, subjectEndTime, subjectAssignedWeek, 
-                                                subjectAssignedUser})
+                                                subjectAssignedUser, user_id})
 
 
         res.status(200).json({subjects})
@@ -54,7 +64,9 @@ const addSubject = async (req, res) => {
 
 // view all subjects
 const viewAllSubs = async (req, res) => {
-    const subjects = await Subject.find({}).sort({createdAt: -1})
+    const user_id = req.user._id
+
+    const subjects = await Subject.find({user_id}).sort({createdAt: -1})
 
     res.status(200).json(subjects)
 }

@@ -3,13 +3,14 @@ import '../App.css';
 
 import { Container, Row, Col} from "react-bootstrap";
 import { SideNav } from '../components/NavBar';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 //components
 import SubjectDetails from '../components/SubjectDetails'
+import { useSubjectsContext } from '../hooks/useSubjectsContext';
 
 const ViewSubjects = () => {
-    const [subjects, setSubjects] = useState(null)
+    const { subjects, dispatch } = useSubjectsContext()
 
     useEffect(() => {
         const fetchSubjects = async () => {
@@ -17,7 +18,7 @@ const ViewSubjects = () => {
             const json = await response.json()
 
             if (response.ok) {
-                setSubjects(json)
+                dispatch({ type: 'VIEW_SUBJECTS', payload: json})  
             }
         }
 
