@@ -79,7 +79,7 @@ const router = require('express').Router();
 
 //controller functions
 const { addSubject, viewAllSubs } = require('../controllers/subjectController')
-const Subject = require('../models/subject.model')
+// const Subject = require('../models/subject.model') - already in the controller
 
 //create new subjects
 router.post('/addsubs', addSubject)

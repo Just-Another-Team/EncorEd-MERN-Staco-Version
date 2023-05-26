@@ -57,7 +57,14 @@ userSchema.statics.register = async function(userFirstname, userLastname, userRo
   const salt = await bcrypt.genSalt(10)
   const hash = await bcrypt.hash(userPassword, salt)
 
+  console.log(userFirstname);
+  console.log(userLastname);
+  console.log(userRole);
+  console.log(userEmail);
+  console.log({userPassword: hash});
+
   // create user
+  //This is where the problem lies
   const user = await this.create({ userFirstname, userLastname, userRole, userEmail, userPassword: hash})
 
   return user

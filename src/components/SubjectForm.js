@@ -1,5 +1,5 @@
 import { Row, Col, Form, Card, Button } from "react-bootstrap"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useSubjectsContext } from "../hooks/useSubjectsContext";
 
 const SubjectForm = () => {
@@ -67,10 +67,11 @@ const SubjectForm = () => {
     const submitForm = async (e) => {
         e.preventDefault()
     
+        const token = JSON.parse(localStorage.getItem('user')).token;
 
         const subject = { subjectName, subjectEDP, subjectFloorLocation,
             subjectRoomLocation, subjectStartTime, subjectEndTime,
-            subjectAssignedWeek, subjectAssignedUser }
+            subjectAssignedWeek, subjectAssignedUser, token }
 
         const response = await fetch('/api/subjects/addsubs', {
             method: 'POST',

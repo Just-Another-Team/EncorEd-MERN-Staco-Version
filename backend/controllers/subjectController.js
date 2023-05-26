@@ -15,8 +15,9 @@ const addSubject = async (req, res) => {
 
     const {subjectName, subjectEDP, subjectRoomLocation, 
             subjectFloorLocation, subjectStartTime, subjectEndTime, subjectAssignedWeek, 
-            subjectAssignedUser} = req.body
+            subjectAssignedUser, token} = req.body
     
+    console.log(jwt.decode(req.body.token, process.env.SECRET));
 
     let emptyFields = []
 
@@ -50,11 +51,19 @@ const addSubject = async (req, res) => {
     
     try{
         
-        const user_id = req.user._id
-        const subjects = await Subject.create({subjectName, subjectEDP, subjectRoomLocation, 
-                                                subjectFloorLocation, subjectStartTime, subjectEndTime, subjectAssignedWeek, 
-                                                subjectAssignedUser, user_id})
+        const user_id = jwt.decode(token, process.env.SECRET)
 
+        const subjects = await Subject.create({
+            subjectName,
+            subjectEDP,
+            subjectRoomLocation, 
+            subjectFloorLocation,
+            subjectStartTime,
+            subjectEndTime,
+            subjectAssignedWeek, 
+            subjectAssignedUser,
+            user_id
+        })
 
         res.status(200).json({subjects})
     } catch (error) {
@@ -64,9 +73,7 @@ const addSubject = async (req, res) => {
 
 // view all subjects
 const viewAllSubs = async (req, res) => {
-    const user_id = req.user._id
-
-    const subjects = await Subject.find({user_id}).sort({createdAt: -1})
+    const subjects = await Subject.find({}).sort({createdAt: -1})
 
     res.status(200).json(subjects)
 }
