@@ -27,11 +27,11 @@ const ViewSubjects = () => {
     
     return (
         <>
-            <Container fluid className='mx-0 px-0' style={{overflow: "hidden"}}>
+            <Container fluid className='mx-0 px-0' style={{"overflow-x": "hidden"}}>
                 <Row>
                     <SideNav />
                     <Col className='m-0 p-0' style={{height: "94.2vh"}}>
-                        <div>
+                        <div style={{"overflow-y": "scroll"}}>
                             {subjects && subjects.map((subject) => (
                                 <SubjectDetails key={subject._id} subject={subject}/>
                             ))}
