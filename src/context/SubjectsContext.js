@@ -8,7 +8,19 @@ export const subjectsReducer = (state, action) => {
       return {
         subjects: action.payload
       }
+    case 'VIEW_SUBJECT':
+      return {
+        subject: action.payload
+      }
     case 'ADD_SUBJECTS': 
+      return {
+        subjects: [action.payload, ...state.subjects]
+      }
+    case 'UPDATE_SUBJECT': 
+      return {
+        subjects: [action.payload, ...state.subjects]
+      }
+    case 'DELETE_SUBJECT':
       return {
         subjects: [action.payload, ...state.subjects]
       }

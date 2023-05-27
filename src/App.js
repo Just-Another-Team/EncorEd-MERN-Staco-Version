@@ -6,7 +6,7 @@ import { TopNav } from './components/NavBar';
 import { Landing } from "./pages/LandingPage";
 import { Login } from "./pages/LoginPage";
 import { Register } from "./pages/RegisterPage";
-import { AddSubject } from "./pages/SubjectPage";
+import { AddSubject, EditSubject } from "./pages/SubjectPage";
 import { Dashboard } from './pages/DashboardPage';
 import { ViewSubjects } from './pages/ViewSubjectsPage';
 import { useAuthContext } from './hooks/useAuthContext';
@@ -14,7 +14,6 @@ import { useAuthContext } from './hooks/useAuthContext';
 function App() {
   const { user } = useAuthContext()
   
-
   return (
     <>
       <TopNav/>
@@ -29,19 +28,37 @@ function App() {
         />
         <Route 
           exact path="/register" 
-          element={ !user ? <Register /> : <Navigate to="/dashboard"/> }
+          element={ !user 
+            ? <Register /> 
+            : <Navigate to="/dashboard"/> }
         />
+
         <Route 
           exact path="/dashboard" 
-          element={ user ? <Dashboard /> : <Navigate to="/" />}
+          element={ user 
+            ? <Dashboard /> 
+            : <Navigate to="/" />}
         />
+
         <Route 
           exact path="/addsubs" 
-          element={ user && user.userRole === 'Registrar' ? <AddSubject />: <Navigate to="/login" />}
+          element={ user && user.userRole === 'Registrar' 
+            ? <AddSubject /> 
+            : <Navigate to="/login" />}
         />
+
+        <Route 
+          exact path="/editsub/:id" 
+          element={ user && user.userRole === 'Registrar' 
+            ? <EditSubject /> 
+            : <Navigate to="/login" />}
+        />
+
         <Route 
           exact path="/viewsubs" 
-          element={ user ? <ViewSubjects />: <Navigate to="/login" />}
+          element={ user 
+            ? <ViewSubjects />
+            : <Navigate to="/login" />}
         />
       </Routes>
     </>
