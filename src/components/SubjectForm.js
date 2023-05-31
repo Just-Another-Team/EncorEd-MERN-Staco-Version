@@ -11,12 +11,14 @@ const SubjectForm = ({id}) => {
     const [subjectEDP, setSubjectEDPCode] = useState('');
     const [subjectFloorLocation, setSubjectFloorLocation] = useState('');
     const [subjectRoomLocation, setSubjectAssignedRoom] = useState('');
-    const [subjectStartTime, setSubjectStartTime] = useState('');
-    const [subjectEndTime, setSubjectEndTime] = useState('');
+    const [initSubjectStartTime, setInitSubjectStartTime] = useState('');
+    const [initSubjectEndTime, setInitSubjectEndTime] = useState('');
     const [subjectAssignedWeek, setSubjectAssignedWeek] = useState([]);
     const [subjectAssignedUser, setSubjectAssignedUser] = useState([
-        {name: 'username', placeholder: 'Name of user'}
+        {name: 'username'}
     ]);
+
+    const [students, setStudents] = useState([]);
 
     const [error, setError] = useState(null)
 
@@ -52,23 +54,32 @@ const SubjectForm = ({id}) => {
     }
     
     const handleFormChange = (index, event) => {
+        // console.log(event.target.value);
+        // console.log(event.target.selectedOptions[0].label);
+
         let data = [...subjectAssignedUser];
-        data[index][event.target.name] = event.target.value;
+        data[index]["userid"] = event.target.value;
+        data[index][event.target.name] = event.target.selectedOptions[0].label;
         setSubjectAssignedUser(data);
+
+        console.log(subjectAssignedUser);
     }
 
-    const setFloor = (e) => {
-        setSubjectFloorLocation(e.target.value);
+    const setFloor = (value) => {
+        setSubjectFloorLocation(value);
     
-        if (e.target.value === "0" || e.target.value === undefined)
+        if (value === "0" || value === undefined)
             setRooms([])
         else
-            setRooms(roomList(e.target.value, 22))
+            setRooms(roomList(value, 22))
     }
 
     const setDate = (e) => {
-        const timeArr = e.target.value.split(":");
+        //console.log(e);
+        
+        const timeArr = e.split(':');
         const timeDate = new Date();
+
         timeDate.setHours(timeArr[0], timeArr[1]);
         return timeDate;
     }
@@ -83,6 +94,9 @@ const SubjectForm = ({id}) => {
         e.preventDefault()
 
         const token = JSON.parse(localStorage.getItem('user')).token;
+
+        const subjectEndTime = setDate(initSubjectEndTime);
+        const subjectStartTime = setDate(initSubjectStartTime);
 
         const subject = { subjectName, subjectEDP, subjectFloorLocation,
             subjectRoomLocation, subjectStartTime, subjectEndTime,
@@ -103,22 +117,12 @@ const SubjectForm = ({id}) => {
         }
 
         if(response.ok) {
-            //Clear
-            //setSubjectImg();
+            if (subjectAssignedUser.length <= 1)
+                if (!window.confirm("There are no students assigned in this subject. Are you sure you want to continue? (Hint: Register a Student user first if there is none)")) return;
 
             alert("Subject added successfully!");
 
-            setSubjectName();
-            setSubjectEDPCode();
-            setSubjectFloorLocation();
-            setSubjectAssignedRoom();
-            setSubjectStartTime();
-            setSubjectEndTime();
-            setSubjectAssignedWeek();
-            setSubjectAssignedUser([{name: 'username', placeholder: 'Name of user'}]);
-            setError(null)
-            console.log("new subject added", json)
-            dispatch({ type: 'ADD_SUBJECTs', payload: json})
+            window.location.href = "/viewsubs";
         }
     }
 
@@ -127,93 +131,66 @@ const SubjectForm = ({id}) => {
 
         const token = JSON.parse(localStorage.getItem('user')).token;
 
+        const subjectEndTime = setDate(initSubjectEndTime);
+        const subjectStartTime = setDate(initSubjectStartTime);
+
         const subject = { subjectName, subjectEDP, subjectFloorLocation,
             subjectRoomLocation, subjectStartTime, subjectEndTime,
             subjectAssignedWeek, subjectAssignedUser, token }
 
-        axios.post(`/api/subjects/updateSub/${id}`, subject)
+        axios.put(`/api/subjects/updateSub/${id}`, subject)
             .then(res => {
+                if (subjectAssignedUser.length <= 1) 
+                    if(!window.confirm("There are no students assigned in this subject. Are you sure you want to continue? (Hint: Register a Student user first if there is none)")) return;
+
                 alert("Subject updated successfully!");
 
                 window.location.href = "/viewsubs";
-
-                setSubjectName();
-                setSubjectEDPCode();
-                setSubjectFloorLocation();
-                setSubjectAssignedRoom();
-                setSubjectStartTime();
-                setSubjectEndTime();
-                setSubjectAssignedWeek();
-                setSubjectAssignedUser([{name: 'username', placeholder: 'Name of user'}]);
-                setError(null)
             })
             .catch(err => {
                 setError(err.data)
             });
-
-        // const response = await fetch(`/api/subjects/updateSub/${id}`, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(subject)
-        // })
-
-        // const json = await response.json()
-
-        // if(!response.ok) {
-        //     setError(json.error)
-        // }
-
-        // if(response.ok) {
-        //     //Clear
-        //     //setSubjectImg();
-
-        //     alert("Subject updated successfully!");
-
-        //     setSubjectName();
-        //     setSubjectEDPCode();
-        //     setSubjectFloorLocation();
-        //     setSubjectAssignedRoom();
-        //     setSubjectStartTime();
-        //     setSubjectEndTime();
-        //     setSubjectAssignedWeek();
-        //     setSubjectAssignedUser([{name: 'username', placeholder: 'Name of user'}]);
-        //     setError(null)
-        //     console.log("Subject updated!", json)
-        //     dispatch({ type: 'UPDATE_SUBJECT', payload: json})
-        // }
     }
 
     useEffect(() => {
-        if (id !== undefined) 
-            axios.get(`/api/subjects/viewsubs/${id}`)
-                .then((res) => {
-                    console.log(res.data[0].subjectName);
+        axios.get('/api/users/students')
+            .then((res) => {
+                setStudents(res.data);
+            })
+            .catch((err) => {
+                console.log(`Error from on viewing students: ${err.data}`);
+            });
 
-                    setSubjectName(res.data[0].subjectName);
-                    setSubjectEDPCode(res.data[0].subjectEDP);
-                    setSubjectFloorLocation(res.data[0].subjectFloorLocation);
-                    setSubjectAssignedRoom(res.data[0].subjectRoomLocation);
+        if (id === undefined) return;
 
-                    const startTime = new Date(res.data[0].subjectStartTime);
-                    const endTime = new Date(res.data[0].subjectEndTime);
+        axios.get(`/api/subjects/viewsubs/${id}`)
+            .then((res) => {
+                if (res.data === undefined)
+                    return;
 
-                    setSubjectStartTime(`${startTime.getHours()}:${startTime.getMinutes()}`);
-                    setSubjectEndTime(`${endTime.getHours()}:${endTime.getMinutes()}`);
+                setSubjectName(res.data[0].subjectName);
+                setSubjectEDPCode(res.data[0].subjectEDP);
+                setSubjectFloorLocation(res.data[0].subjectFloorLocation);
+                setFloor(res.data[0].subjectFloorLocation);
+                setSubjectAssignedRoom(res.data[0].subjectRoomLocation);
 
-                    setSubjectAssignedWeek(res.data[0].subjectAssignedWeek);
+                const startTime = new Date(res.data[0].subjectStartTime);
+                const endTime = new Date(res.data[0].subjectEndTime);
 
-                    setSubjectAssignedUser(res.data[0].subjectAssignedUser);
-                })
-                .catch((err) => {
-                    console.log('Error from UpdateBookInfo');
-                });
+                setInitSubjectStartTime(`${startTime.getHours()}:${startTime.getMinutes()}`);
+                setInitSubjectEndTime(`${endTime.getHours()}:${endTime.getMinutes()}`);
 
+                setSubjectAssignedWeek(res.data[0].subjectAssignedWeek);
+
+                setSubjectAssignedUser(res.data[0].subjectAssignedUser);
+            })
+            .catch((err) => {
+                console.log('Error from UpdateBookInfo');
+            });
     }, [id])
-
+    
     return (
-       <Form className='m-4 p-3'>
+       <Form className='py-2'>
             {id && (
                 <>
                     <Form.Group className='mb-3'>
@@ -236,7 +213,7 @@ const SubjectForm = ({id}) => {
             <Row className='mb-3'>
                 <Form.Group as={Col}>
                     <Form.Label>Assigned Floor</Form.Label>
-                    <Form.Select onChange={(e) => setFloor(e)} aria-label='Subject Floor Location' value={subjectFloorLocation} required>
+                    <Form.Select onChange={(e) => setFloor(e.target.value)} aria-label='Subject Floor Location' value={subjectFloorLocation} required>
                         <option value='0'>Floor Number</option>
                         {floors.map(elements => <option value={elements}>{`Floor ${elements}`}</option>)}    
                     </Form.Select>
@@ -255,12 +232,12 @@ const SubjectForm = ({id}) => {
                 <Form.Label>Subject Schedule</Form.Label>
                 <Form.Group as={Col}>
                     <Form.Label>Start Time</Form.Label>
-                    <Form.Control onChange={(e) => setSubjectStartTime(setDate(e))} defaultValue={subjectStartTime} type="time" required/>
+                    <Form.Control onChange={(e) => setInitSubjectStartTime(e.target.value)} defaultValue={initSubjectStartTime} type="time" required/>
                 </Form.Group>
 
                 <Form.Group as={Col}>
                     <Form.Label>End Time</Form.Label>
-                    <Form.Control onChange={(e) => setSubjectEndTime(setDate(e))} defaultValue={subjectEndTime} type="time" required/>
+                    <Form.Control onChange={(e) => setInitSubjectEndTime(e.target.value)} defaultValue={initSubjectEndTime} type="time" required/>
                 </Form.Group>
             </Row>
 
@@ -282,7 +259,13 @@ const SubjectForm = ({id}) => {
                                     {index === subjectAssignedUser.length - 1 
                                         ?
                                         <>
-                                            <Form.Control onChange={(e) => handleFormChange(index, e)} name={input.name} type='text' style={{width: "28em"}} placeholder={input.placeholder} required />
+                                            {/* <Form.Control onChange={(e) => handleFormChange(index, e)} name={input.name} type='text' style={{width: "28em"}} placeholder={input.placeholder} required /> */}
+
+                                            <Form.Select onChange={(e) => handleFormChange(index, e)} name="username" aria-label='Select Student' style={{width: "28em"}} required>
+                                                <option value=''>Student</option>
+                                                {students.map(elements => <option value={elements._id}>{`${elements.userFirstname} ${elements.userLastname}`}</option>)}    
+                                            </Form.Select>
+
                                             <Button onClick={() => addFields(index)} variant='primary'>ADD</Button>
                                         </>
                                         :

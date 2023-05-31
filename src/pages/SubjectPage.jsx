@@ -10,10 +10,11 @@ import SubjectForm from '../components/SubjectForm'
 const AddSubject = () => {
     return (
         <>
-            <Container fluid className='mx-0 px-0' style={{overflow: "hidden"}}>
+            <Container className='' style={{overflow: "hidden"}}>
+                <h2>Add Subject</h2>
                 <Row>
-                    <SideNav />
-                    <Col className='m-0 p-0' style={{height: "94.2vh"}}>
+                    {/* <SideNav /> not to be used and not fixed */}
+                    <Col>
                         <SubjectForm />
                     </Col>
                 </Row>
@@ -28,10 +29,11 @@ const EditSubject = () => {
 
     return (
         <>
-            <Container fluid className='mx-0 px-0' style={{overflow: "hidden"}}>
+            <Container className='' style={{overflow: "hidden"}}>
+                <h2>Update Subject</h2>
                 <Row>
-                    <SideNav />
-                    <Col className='m-0 p-0' style={{height: "94.2vh"}}>
+                    {/* <SideNav /> Not to be used */}
+                    <Col>
                         <SubjectForm id={id}/>
                     </Col>
                 </Row>

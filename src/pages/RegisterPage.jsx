@@ -49,13 +49,19 @@ const Register = () => {
                         </div>
                         <div className="form-group mt-3">
                             <label>Role</label>
-                            <input
+                            <select className='form-control mt-1' name="role" onChange={(e) => setRole(e.target.value)}>
+                                <option>Choose role</option>
+                                <option value="Student">Student</option>
+                                <option value="Teacher">Teacher</option>
+                                <option value="Registrar">Registrar</option>  
+                            </select>
+                            {/* <input
                             type="text"
                             className="form-control mt-1"
                             placeholder="e.g Student"
                             onChange={(e) => setRole(e.target.value)}
                             value={userRole}
-                            />
+                            /> */}
                         </div>
                         <div className="form-group mt-3">
                             <label>Email address</label>

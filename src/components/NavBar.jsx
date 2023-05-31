@@ -24,7 +24,7 @@ const TopNav = () => {
                     )}
                     {user && (
                         <>
-                            <Nav.Link href="/viewsubs">View Subjects</Nav.Link>
+                            {/* <Nav.Link href="/viewsubs">View Subjects</Nav.Link> */}
                             <span className="loggedIn">Welcome! {user.userEmail}</span>
                             <button className="logout" onClick={handleClick}> Log out</button>
                         </>

@@ -42,8 +42,19 @@ const registerUser = async (req, res) => {
         res.status(200).json({userEmail, userRole})
     } catch (error) {
         console.log("Register Error");
+        console.log(error);
         res.status(400).json({error: error.message})
     }
 }
 
-module.exports = { registerUser, loginUser };
+const viewStudents = async (req, res) => {
+    const students = await User.find({userRole: "Student"}, {userFirstname: 1, userLastname: 1, _id: 1}).sort({createdAt: 1})
+
+    try {
+        res.status(200).json(students)
+    } catch (err) {
+        res.status(400).json(err.data)
+    }
+}
+
+module.exports = { registerUser, loginUser, viewStudents };

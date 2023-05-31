@@ -109,6 +109,21 @@ const viewSub = async (req, res) => {
     }
 }
 
+const viewEnrolledSub = async (req, res) => {
+
+    const userid = jwt.decode(req.body.token, process.env.SECRET);
+
+    const subjects = await Subject.find({subjectAssignedUser: {$elemMatch: {'userid': `${userid._id}`}}})
+
+    console.log(subjects);
+
+    try {
+        res.status(200).json(subjects)
+    } catch (err) {
+        res.status(400).json(err.data)
+    }
+}
+
 //update subject
 const updateSubject = async (req, res) => {
 
@@ -138,6 +153,36 @@ const updateSubject = async (req, res) => {
         }
     }
 
+    let emptyFields = []
+
+    if(!subjectName) {
+        emptyFields.push('name')
+    }
+    if(!subjectEDP) {
+        emptyFields.push('edp')
+    }
+    if(!subjectRoomLocation) {
+        emptyFields.push('roomLoc')
+    }
+    if(!subjectFloorLocation) {
+        emptyFields.push('floorLoc')
+    }
+    if(!subjectStartTime) {
+        emptyFields.push('startTime')
+    }
+    if(!subjectEndTime) {
+        emptyFields.push('endTime')
+    }
+    if(!subjectAssignedWeek) {
+        emptyFields.push('assgnWeek')
+    }
+    if(!subjectAssignedUser) {
+        emptyFields.push('assgnUser')
+    }
+    if(emptyFields.length > 0) {
+        return res.status(400).json({ error: 'Please fill in all the fields', emptyFields })
+    }
+
     Subject.updateOne({ _id: `${subjectId}`, }, updatedSubject)
         .then(() => {
 		    res.status(200).json(`Updated: ${req.params.id}`);
@@ -147,42 +192,6 @@ const updateSubject = async (req, res) => {
 		    res.status(400).json("Failure in Updating.");
 		    console.log(error); // Failure
 	    });
-
-    // const {subjectId, subjectName, subjectEDP, subjectRoomLocation, 
-    //     subjectFloorLocation, subjectStartTime, subjectEndTime, subjectAssignedWeek, 
-    //     subjectAssignedUser, token} = req.body
-
-    // console.log(jwt.decode(req.body.token, process.env.SECRET));
-
-    // let emptyFields = []
-
-    // if(!subjectName) {
-    //     emptyFields.push('name')
-    // }
-    // if(!subjectEDP) {
-    //     emptyFields.push('edp')
-    // }
-    // if(!subjectRoomLocation) {
-    //     emptyFields.push('roomLoc')
-    // }
-    // if(!subjectFloorLocation) {
-    //     emptyFields.push('floorLoc')
-    // }
-    // if(!subjectStartTime) {
-    //     emptyFields.push('startTime')
-    // }
-    // if(!subjectEndTime) {
-    //     emptyFields.push('endTime')
-    // }
-    // if(!subjectAssignedWeek) {
-    //     emptyFields.push('assgnWeek')
-    // }
-    // if(!subjectAssignedUser) {
-    //     emptyFields.push('assgnUser')
-    // }
-    // if(emptyFields.length > 0) {
-    //     return res.status(400).json({ error: 'Please fill in all the fields', emptyFields })
-    // }
 }
 
-module.exports = { addSubject, viewAllSubs, deleteSubject, updateSubject, viewSub }
+module.exports = { addSubject, viewAllSubs, deleteSubject, updateSubject, viewSub, viewEnrolledSub}

@@ -24,21 +24,21 @@ function App() {
         />
         <Route 
           exact path="/login" 
-          element={ !user ? <Login /> : <Navigate to="/dashboard"/>}
+          element={ !user ? <Login /> : <Navigate to="/viewsubs"/>}
         />
         <Route 
           exact path="/register" 
           element={ !user 
             ? <Register /> 
-            : <Navigate to="/dashboard"/> }
+            : <Navigate to="/viewsubs"/> }
         />
 
-        <Route 
+        {/* <Route 
           exact path="/dashboard" 
           element={ user 
             ? <Dashboard /> 
             : <Navigate to="/" />}
-        />
+        /> */}
 
         <Route 
           exact path="/addsubs" 

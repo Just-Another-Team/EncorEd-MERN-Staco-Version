@@ -9,13 +9,15 @@ const router = require('express').Router();
 */
 
 //controller functions
-const { registerUser, loginUser} = require('../controllers/userController')
+const { registerUser, loginUser, viewStudents} = require('../controllers/userController')
 
 //login route
 router.post('/login', loginUser)
 
 //register route
 router.post('/register', registerUser)
+
+router.get('/students', viewStudents);
 
 /*router.route('/register', (req, res) => {
     const userFirstname = req.body.userFirstname;

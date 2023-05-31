@@ -78,7 +78,7 @@ router.route('/add').post(upload.single('subjectImg'), (req, res) => {
 const router = require('express').Router();
 
 //controller functions
-const { addSubject, viewAllSubs, deleteSubject, updateSubject, viewSub } = require('../controllers/subjectController')
+const { addSubject, viewAllSubs, deleteSubject, updateSubject, viewSub, viewEnrolledSub } = require('../controllers/subjectController')
 // const Subject = require('../models/subject.model') - already in the controller
 
 //create new subjects
@@ -89,10 +89,12 @@ router.get('/viewsubs', viewAllSubs)
 //view specific subjects
 router.get('/viewsubs/:id', viewSub)
 
+router.put('/enrolledsubs', viewEnrolledSub);
+
 //delete specific subject
 router.delete('/deleteSub/:id', deleteSubject);
 
 //update specific subject
-router.post('/updateSub/:id', updateSubject);
+router.put('/updateSub/:id', updateSubject);
 
 module.exports = router; 
