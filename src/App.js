@@ -7,7 +7,6 @@ import { Landing } from "./pages/LandingPage";
 import { Login } from "./pages/LoginPage";
 import { Register } from "./pages/RegisterPage";
 import { AddSubject, EditSubject } from "./pages/SubjectPage";
-import { Dashboard } from './pages/DashboardPage';
 import { ViewSubjects } from './pages/ViewSubjectsPage';
 import { useAuthContext } from './hooks/useAuthContext';
 
@@ -32,13 +31,6 @@ function App() {
             ? <Register /> 
             : <Navigate to="/viewsubs"/> }
         />
-
-        {/* <Route 
-          exact path="/dashboard" 
-          element={ user 
-            ? <Dashboard /> 
-            : <Navigate to="/" />}
-        /> */}
 
         <Route 
           exact path="/addsubs" 

@@ -1,5 +1,4 @@
 import '../App.css';
-//import logo from '../assets/logo.svg';
 
 import { Container, Row, Col} from "react-bootstrap"
 import { SideNav } from '../components/NavBar';
@@ -13,7 +12,6 @@ const AddSubject = () => {
             <Container className='' style={{overflow: "hidden"}}>
                 <h2>Add Subject</h2>
                 <Row>
-                    {/* <SideNav /> not to be used and not fixed */}
                     <Col>
                         <SubjectForm />
                     </Col>
@@ -32,7 +30,6 @@ const EditSubject = () => {
             <Container className='' style={{overflow: "hidden"}}>
                 <h2>Update Subject</h2>
                 <Row>
-                    {/* <SideNav /> Not to be used */}
                     <Col>
                         <SubjectForm id={id}/>
                     </Col>

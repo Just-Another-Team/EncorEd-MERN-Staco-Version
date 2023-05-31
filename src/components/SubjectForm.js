@@ -54,9 +54,6 @@ const SubjectForm = ({id}) => {
     }
     
     const handleFormChange = (index, event) => {
-        // console.log(event.target.value);
-        // console.log(event.target.selectedOptions[0].label);
-
         let data = [...subjectAssignedUser];
         data[index]["userid"] = event.target.value;
         data[index][event.target.name] = event.target.selectedOptions[0].label;
@@ -74,9 +71,7 @@ const SubjectForm = ({id}) => {
             setRooms(roomList(value, 22))
     }
 
-    const setDate = (e) => {
-        //console.log(e);
-        
+    const setDate = (e) => {        
         const timeArr = e.split(':');
         const timeDate = new Date();
 
@@ -259,8 +254,6 @@ const SubjectForm = ({id}) => {
                                     {index === subjectAssignedUser.length - 1 
                                         ?
                                         <>
-                                            {/* <Form.Control onChange={(e) => handleFormChange(index, e)} name={input.name} type='text' style={{width: "28em"}} placeholder={input.placeholder} required /> */}
-
                                             <Form.Select onChange={(e) => handleFormChange(index, e)} name="username" aria-label='Select Student' style={{width: "28em"}} required>
                                                 <option value=''>Student</option>
                                                 {students.map(elements => <option value={elements._id}>{`${elements.userFirstname} ${elements.userLastname}`}</option>)}    

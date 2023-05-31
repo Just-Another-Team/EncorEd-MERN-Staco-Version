@@ -41,17 +41,4 @@ const TopNav = () => {
     );
 }
 
-const SideNav = () => {
-    return (
-        <Col xs={2} className="p-0" style={{backgroundColor: "blue"}}>
-            {["Home", "Subjects", "Events"].map((element) => {
-                return(
-                    // <h5 className="m-0 px-5 py-3" style={{backgroundColor: "red"}}>{element}</h5>
-                    <NavButton text={element} className="m-0 px-5 py-3 w-100"/>
-                );
-            })}
-        </Col>
-    );
-}
-
-export { TopNav, SideNav }
+export { TopNav }

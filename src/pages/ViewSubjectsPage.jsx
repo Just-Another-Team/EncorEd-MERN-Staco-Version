@@ -1,5 +1,4 @@
 import '../App.css';
-//import logo from '../assets/logo.svg'
 
 import { Container, Row, Col} from "react-bootstrap";
 import { SideNav } from '../components/NavBar';
@@ -43,10 +42,6 @@ const ViewSubjects = () => {
             .catch((err) => {
                 console.log(`Error ${err.data}`);
             });
-
-        //put
-        //const token = JSON.parse(localStorage.getItem('user')).token;
-        console.log(token)
     }, [deleted])
 
     const handleDelete = async (e) => {

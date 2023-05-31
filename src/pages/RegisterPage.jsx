@@ -55,13 +55,6 @@ const Register = () => {
                                 <option value="Teacher">Teacher</option>
                                 <option value="Registrar">Registrar</option>  
                             </select>
-                            {/* <input
-                            type="text"
-                            className="form-control mt-1"
-                            placeholder="e.g Student"
-                            onChange={(e) => setRole(e.target.value)}
-                            value={userRole}
-                            /> */}
                         </div>
                         <div className="form-group mt-3">
                             <label>Email address</label>
